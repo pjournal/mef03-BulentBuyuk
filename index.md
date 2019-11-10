@@ -7,6 +7,6 @@ You can see [my assignment](https://pjournal.github.io/mef03-BulentBuyuk/assignm
 
 ## BKM Assignment
 
-You can see [my assignment](https://pjournal.github.io/mef03-BulentBuyuk/assignment_1_bulentbuyuk.html) for BKM Sektörel Değişim.
+You can see [my assignment](https://pjournal.github.io/mef03-BulentBuyuk/BKM_Assignment.html) for BKM Sektörel Değişim.
 
-The data set used in the assignment can be found [here](https://pjournal.github.io/mef03-BulentBuyuk/assignment_1_bulentbuyuk.html).
+The data set used in the assignment can be found [here](https://pjournal.github.io/mef03-BulentBuyuk/BKM_Data).
