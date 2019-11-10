@@ -1,0 +1,155 @@
+---
+title: "BKM_Assignment"
+author: "Bulent Buyuk"
+date: "10 11 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# 1.Introduction & Import Packages
+
+This is a worksheet of BKM Sektorel Gelisim Assignment.
+
+The assignment's dataset includes the January 2019 through June 2019.
+
+We import packages we'll use.
+
+````{r warning=FALSE,message=FALSE}
+
+library("rvest")
+library("tidyverse")
+library("lubridate")
+
+````
+
+# 2.Get BKM Dataset
+
+We downloaded dataset from the [BKM website](https://bkm.com.tr/secilen-aya-ait-sektorel-gelisim/) separately for each month. 
+
+Then, we create tables for each month.
+
+````{r warning=FALSE,message=FALSE}
+
+raw6<- read_html("https://bkm.com.tr/secilen-aya-ait-sektorel-gelisim/?filter_year=2019&filter_month=6&List=Listele")
+raw5<- read_html("https://bkm.com.tr/secilen-aya-ait-sektorel-gelisim/?filter_year=2019&filter_month=5&List=Listele")
+raw4<- read_html("https://bkm.com.tr/secilen-aya-ait-sektorel-gelisim/?filter_year=2019&filter_month=4&List=Listele")
+raw3<- read_html("https://bkm.com.tr/secilen-aya-ait-sektorel-gelisim/?filter_year=2019&filter_month=3&List=Listele")
+raw2<- read_html("https://bkm.com.tr/secilen-aya-ait-sektorel-gelisim/?filter_year=2019&filter_month=2&List=Listele")
+raw1<- read_html("https://bkm.com.tr/secilen-aya-ait-sektorel-gelisim/?filter_year=2019&filter_month=1&List=Listele")
+
+raw_table6 <- raw6%>% html_table(fill = TRUE)
+raw_table5 <- raw5%>% html_table(fill = TRUE)
+raw_table4 <- raw4%>% html_table(fill = TRUE)
+raw_table3 <- raw3%>% html_table(fill = TRUE)
+raw_table2 <- raw2%>% html_table(fill = TRUE)
+raw_table1 <- raw1%>% html_table(fill = TRUE)
+
+table6<-raw_table6[[4]]
+table5<-raw_table5[[4]]
+table4<-raw_table4[[4]]
+table3<-raw_table3[[4]]
+table2<-raw_table2[[4]]
+table1<-raw_table1[[4]]
+
+````
+
+# 3. Data Transformation
+
+We add a date column to each table and change the names of all columns.
+
+Then, we merge the tables by filtering the rows.
+
+```{r warning=FALSE,message=FALSE}
+
+table6<-add_column(table6,yeni="2019-06-30")
+table5<-add_column(table5,yeni="2019-05-31")
+table4<-add_column(table4,yeni="2019-04-30")
+table3<-add_column(table3,yeni="2019-03-31")
+table2<-add_column(table2,yeni="2019-02-28")
+table1<-add_column(table1,yeni="2019-01-31")
+
+names(table1)<- c("Isyeri_Grubu","Islem_Adedi_Kredi_Karti","Islem_Adedi_Banka_Karti","Islem_Tutari_Kredi_Karti","Islem_Tutari_Banka_Karti","Tarih")
+names(table2)<- c("Isyeri_Grubu","Islem_Adedi_Kredi_Karti","Islem_Adedi_Banka_Karti","Islem_Tutari_Kredi_Karti","Islem_Tutari_Banka_Karti","Tarih")
+names(table3)<- c("Isyeri_Grubu","Islem_Adedi_Kredi_Karti","Islem_Adedi_Banka_Karti","Islem_Tutari_Kredi_Karti","Islem_Tutari_Banka_Karti","Tarih")
+names(table4)<- c("Isyeri_Grubu","Islem_Adedi_Kredi_Karti","Islem_Adedi_Banka_Karti","Islem_Tutari_Kredi_Karti","Islem_Tutari_Banka_Karti","Tarih")
+names(table5)<- c("Isyeri_Grubu","Islem_Adedi_Kredi_Karti","Islem_Adedi_Banka_Karti","Islem_Tutari_Kredi_Karti","Islem_Tutari_Banka_Karti","Tarih")
+names(table6)<- c("Isyeri_Grubu","Islem_Adedi_Kredi_Karti","Islem_Adedi_Banka_Karti","Islem_Tutari_Kredi_Karti","Islem_Tutari_Banka_Karti","Tarih")
+
+table6<-slice(table6,3:28)
+table5<-slice(table5,3:28)
+table4<-slice(table4,3:28)
+table3<-slice(table3,3:28)
+table2<-slice(table2,3:28)
+table1<-slice(table1,3:28)
+
+bkm_data<-bind_rows(table1, table2, table3, table4, table5, table6)
+
+glimpse(bkm_data)
+
+```
+
+We convert numeric and date columns because all columns of our dataset are characters.
+
+We are ready for analysis!
+
+```{r warning=FALSE,message=FALSE}
+
+bkm_data$Tarih <- ymd(bkm_data$Tarih)
+
+bkm_data$Islem_Adedi_Kredi_Karti<-as.numeric(gsub("\\.","",bkm_data$Islem_Adedi_Kredi_Karti))
+bkm_data$Islem_Adedi_Banka_Karti<-as.numeric(gsub("\\.","",bkm_data$Islem_Adedi_Banka_Karti))
+bkm_data$Islem_Tutari_Kredi_Karti<-as.numeric(gsub(",",".",gsub("\\.","",bkm_data$Islem_Tutari_Kredi_Karti)))
+bkm_data$Islem_Tutari_Banka_Karti<-as.numeric(gsub(",",".",gsub("\\.","",bkm_data$Islem_Tutari_Banka_Karti)))
+
+glimpse(bkm_data)
+
+```
+
+# 4. Analysis
+
+## Sectoral Transaction Volume
+
+```{r warning=FALSE,message=FALSE}
+
+sektor_orani<- bkm_data %>%
+  select(Isyeri_Grubu,Islem_Adedi_Kredi_Karti,Islem_Adedi_Banka_Karti,Islem_Tutari_Kredi_Karti,Islem_Tutari_Banka_Karti,Tarih) %>%
+  group_by(Isyeri_Grubu) %>%
+  summarize(islem_hacmi=sum(Islem_Tutari_Kredi_Karti,Islem_Tutari_Banka_Karti)) %>%
+  mutate(oran = round(islem_hacmi/sum(islem_hacmi),2)) %>%
+  arrange(desc(oran)) %>%  
+  print(sektor_orani)
+
+en_iyi_on_sektor<-head(sektor_orani,10)
+ggplot(data = en_iyi_on_sektor, aes(x=Isyeri_Grubu, y=oran, fill=Isyeri_Grubu)) +
+  geom_bar(stat="identity")+
+  coord_polar()+
+  theme(legend.position = "right", axis.text.x = element_text(angle = 0))+
+  geom_text(aes(y = oran , label = oran))+
+  labs(title = "Sector Shares", x="", y="")
+
+```
+
+## Monthly Transaction Volume
+
+```{r warning=FALSE,message=FALSE}
+
+aylik<- bkm_data %>%
+  arrange(desc(Tarih),desc(Islem_Tutari_Kredi_Karti)) %>%
+  group_by(Tarih) %>%
+  summarize(aylik_kartlar_toplami = sum(Islem_Tutari_Kredi_Karti, Islem_Tutari_Kredi_Karti)) %>%
+  arrange(desc(aylik_kartlar_toplami))%>%
+  print(aylik)
+  
+ggplot(data = aylik, aes(x = workplace, y = aylik_kartlar_toplami, fill = as.character(Tarih)))+ 
+  geom_bar(stat = "identity") + 
+  aes(x = reorder(Tarih, -aylik_kartlar_toplami),y =aylik_kartlar_toplami) + 
+  labs(x = "", y = "", title = "Monthly Transaction Volume") + 
+  theme_bw() + theme( axis.text.x = element_text(angle = 90,vjust = 0.49, hjust = 0.49, size = 8)) + 
+  scale_y_continuous(labels = scales::comma) + 
+  scale_x_discrete(labels = c("Mayis", "Haziran","mart", "Nisan", "ocak", "Subat")) + 
+  theme(legend.position = "none")
+
+```
