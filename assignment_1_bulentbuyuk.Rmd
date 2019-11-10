@@ -1,0 +1,62 @@
+---
+title: "Assignment_1"
+author: "Bulent Buyuk"
+date: "27 09 2019"
+output: html_document
+---
+
+## Who Am I?
+
+Hi, I'm Bulent Buyuk. I work as a Planning Strategy and Process Development Specialist at LC Waikiki. This position is a Business Development position for Merchandise Planning processes and aims to improve processes based on data. That's why I aim to improve myself in data cleaning and analysis and use it in my work.
+
+My data interests; Clustering, Time Series and Forecasting.
+
+## UseR-2019 Videos
+
+[UseR! 2019 Toulouse - Talk Forecasting - Eran Raviv](https://www.youtube.com/watch?v=8IIUvMXHJFs)
+
+This video is about ForecastComb, a package R where multiple forecasting can be combined. The presenter is Eran Raviv.
+
+The presentation consists of the following 3 parts;
+
+1. On the ForecastComb package
+
+2. Other things combinations
+
+3. How the ForecastComb came to be
+
+The Package's aim is to provide researchers and practitioners with a comprehensive implementation of the most common ways in which forecasts can be combined.
+The package in its current version covers 15 popular estimation methods for creating a combined forecasts – including simple methods, regression-based methods, and eigenvector-based methods.
+It also includes useful tools to deal with common challenges of forecast combination (e.g., missing values in component forecasts, or multicollinearity), and to rationalize and visualize the combination results. 
+
+Many widely used statistical techniques such as the following implicitly use forecast combination:
+
+1. Bagging
+2. Random Forest
+3. Moving Average
+4. Shrinkage
+5. Inception Blocks in ConNN
+
+Areas of application are as follows:
+
+1. Time Series
+2. Densities/Probability
+3. In Factor Models
+4. Considering Outliers
+5. Across Quantiles
+
+## 1- K Means Clustering in R
+
+[This article](https://www.r-bloggers.com/k-means-clustering-in-r/) at r-blogger.com gives an overview of K-Means Clustering, one of the unsupervised learning methods, and shows how to apply it in R.
+
+
+## 2- Forecasting in R with Prophet
+
+[This article](https://mode.com/example-gallery/forecasting_prophet_r_cookbook) at mode.com introduces the prophet library, developed by the core data science team at facebook, and describes how to make time series forecasting in R with this library.
+
+
+## 3- Time Series Analysis
+
+[This article](http://r-statistics.co/Time-Series-Analysis-With-R.html) at r-statistics.co contains detailed information with time series analysis and shows how to apply it at R.
+
+The details of the time series are: components of the time series, stationary, de-composition, de-seasonality, de-trend and auto correlation.
