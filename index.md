@@ -10,4 +10,4 @@ You can see [my assignment](https://pjournal.github.io/mef03-BulentBuyuk/BKM_Ass
 
 ## ATP Assignment
 
-You can see [my assignment](https://github.com/pjournal/mef03-BulentBuyuk/blob/master/ATP_Assignment.html) for ATP 2017.
+You can see [my assignment](https://github.com/pjournal/mef03-BulentBuyuk/ATP_Assignment.html) for ATP 2017.
