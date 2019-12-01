@@ -1,0 +1,142 @@
+---
+title: "ATP_Assignment"
+author: "Bulent Buyuk"
+date: "27 11 2019"
+output: html_document
+---
+
+## 1- Rank countries(flag codes) by the singles champions.
+
+```{r}
+
+library(tidyverse)
+
+our_data <- "~/atp_tennis_data_2017.RData"
+
+load(our_data)
+
+task1 <- inner_join(tourney_df, player_df, by = c("singles_winner_player_id"="player_id"))
+
+champ_flags_df<- task1 %>%
+  group_by(flag_code) %>% count(flag_code, sort=TRUE)
+
+champ_flags_df
+
+```
+
+## 2- Rank countries which did not get any singles championship by the games won when they win the match.
+
+```{r}
+
+nonchamp_players<- player_df %>% 
+  select(player_id, flag_code) %>% 
+  anti_join(., champ_flags_df)
+
+```
+```{r}
+
+nonchamp_players %>% left_join(.,score_df, by= c("player_id"="winner_player_id")) %>%
+                                 group_by(flag_code) %>%
+                                 summarise(total_won= sum(winner_games_won, na.rm=TRUE)) %>%
+                                 arrange(desc(total_won))
+
+```
+
+## 3- Rank names of players who are champions in both singles and doubles in the same tournament.
+
+```{r}
+
+both_champions<- tourney_df %>%
+  filter(singles_winner_player_id==doubles_winner_1_player_id|
+           singles_winner_player_id==doubles_winner_2_player_id)
+
+names_player_bc<- inner_join(both_champions, player_df, by = c("singles_winner_player_id"="player_id"))
+
+names_player_bc$player_slug
+
+```
+
+## 4- Which hand do players use who champions in singles.
+
+```{r}
+
+task4 <- inner_join(tourney_df, player_df, by = c("singles_winner_player_id"="player_id"))
+
+which_hand<- task1 %>%
+  group_by(handedness) %>% count(handedness)
+
+which_hand
+
+```
+=======
+---
+title: "ATP_Assignment"
+author: "Bulent Buyuk"
+date: "27 11 2019"
+output: html_document
+---
+
+## 1- Rank countries(flag codes) by the singles champions.
+
+```{r}
+
+library(tidyverse)
+
+our_data <- "~/atp_tennis_data_2017.RData"
+
+load(our_data)
+
+task1 <- inner_join(tourney_df, player_df, by = c("singles_winner_player_id"="player_id"))
+
+champ_flags_df<- task1 %>%
+  group_by(flag_code) %>% count(flag_code, sort=TRUE)
+
+champ_flags_df
+
+```
+
+## 2- Rank countries which did not get any singles championship by the games won when they win the match.
+
+```{r}
+
+nonchamp_players<- player_df %>% 
+  select(player_id, flag_code) %>% 
+  anti_join(., champ_flags_df)
+
+```
+```{r}
+
+nonchamp_players %>% left_join(.,score_df, by= c("player_id"="winner_player_id")) %>%
+                                 group_by(flag_code) %>%
+                                 summarise(total_won= sum(winner_games_won, na.rm=TRUE)) %>%
+                                 arrange(desc(total_won))
+
+```
+
+## 3- Rank names of players who are champions in both singles and doubles in the same tournament.
+
+```{r}
+
+both_champions<- tourney_df %>%
+  filter(singles_winner_player_id==doubles_winner_1_player_id|
+           singles_winner_player_id==doubles_winner_2_player_id)
+
+names_player_bc<- inner_join(both_champions, player_df, by = c("singles_winner_player_id"="player_id"))
+
+names_player_bc$player_slug
+
+```
+
+## 4- Which hand do players use who champions in singles.
+
+```{r}
+
+task4 <- inner_join(tourney_df, player_df, by = c("singles_winner_player_id"="player_id"))
+
+which_hand<- task1 %>%
+  group_by(handedness) %>% count(handedness)
+
+which_hand
+
+```
+
